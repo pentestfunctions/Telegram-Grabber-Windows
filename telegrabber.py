@@ -83,9 +83,10 @@ def process_stun_packets(interface):
                 if dst_ip in checked_ips or is_excluded_ip(dst_ip):
                     continue
 
-                dst_info = get_whois_info(dst_ip)
-                checked_ips.add(dst_ip)  # Add the IP to the set of checked IPs
+                # Add the IP to the set of checked IPs before WHOIS retrieval
+                checked_ips.add(dst_ip)
 
+                dst_info = get_whois_info(dst_ip)
                 if dst_info:  # Check if WHOIS data was successfully retrieved for destination IP
                     if hasattr(packet, 'stun'):
                         xor_mapped_address = packet.stun.get_field_value('stun.att.ipv4')
