@@ -2,6 +2,10 @@
 
 `Telegram-Grabber-Windows` is a tool designed to capture and analyze network packets to determine the IP address of an interlocutor in the Telegram messenger. This tool is particularly useful for network analysis and cybersecurity purposes.
 
+<p align="center">
+  <img src="example-output.png">
+</p>
+
 ## Features
 
 - Capture STUN (Session Traversal Utilities for NAT) packets to identify IP addresses related to Telegram calls.
