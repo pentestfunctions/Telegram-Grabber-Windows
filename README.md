@@ -28,10 +28,11 @@
 
 ### Using the Executable
 
-1. Run `telegrabber.exe`.
-2. Select the network interface you want to use for capturing packets.
-3. Initiate a Telegram call.
-4. The tool will capture packets and display relevant IP information and WHOIS data.
+1. Grab the release from here [RELEASE](https://github.com/pentestfunctions/Telegram-Grabber-Windows/releases/tag/Telegram)
+2. Run `telegrabber.exe`.
+3. Select the network interface you want to use for capturing packets.
+4. Initiate a Telegram call.
+5. The tool will capture packets and display relevant IP information and WHOIS data.
 
 ### Using the Python Script
 
