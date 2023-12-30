@@ -1,4 +1,4 @@
-# Telegram-Grabber-Windows
+# 📱Telegram-Grabber-Windows📱
 
 `Telegram-Grabber-Windows` is a tool designed to capture and analyze network packets to determine the IP address of an interlocutor in the Telegram messenger. This tool is particularly useful for network analysis and cybersecurity purposes.
 
@@ -33,6 +33,8 @@
 3. Run the script using `python telegrabber.py`.
 4. Follow the on-screen instructions similar to the executable usage.
 
-## Disclaimer
+## Inspiration
+- Based on this code
+- https://github.com/n0a/telegram-get-remote-ip
 
 `Telegram-Grabber-Windows` is intended for educational and ethical testing purposes only. Users are responsible for complying with all applicable laws and regulations in their respective jurisdictions while using this tool.
