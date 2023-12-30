@@ -46,10 +46,14 @@ def select_interface(interfaces):
 def get_whois_info(ip):
     try:
         response = requests.get(f"http://ip-api.com/json/{ip}")
-        return response.json()
+        if response.status_code == 200:
+            data = response.json()
+            if data['status'] == 'success':
+                return data
+        print(f"[!] Error fetching WHOIS data for {ip}: Invalid response")
     except Exception as e:
-        print(f"[!] Error fetching whois data for {ip}: {e}")
-        return {}
+        print(f"[!] Error fetching WHOIS data for {ip}: {e}")
+    return None
 
 def get_hostname(ip):
     try:
@@ -66,23 +70,25 @@ def is_excluded_ip(ip):
 
 def process_stun_packets(interface):
     print(f"Running stun capture now to try and find the target.")
-    print(f"This could take upto 30 seconds while calling")
+    print(f"This could take up to 30 seconds while calling")
     print(f"Call your target now:")
+
     try:
         cap = pyshark.LiveCapture(interface=interface, display_filter="stun")
         for packet in cap.sniff_continuously(packet_count=999999):  # Adjust packet count as needed
             if hasattr(packet, 'ip'):
-                src_ip, dst_ip = packet.ip.src, packet.ip.dst
-                if is_excluded_ip(src_ip) or is_excluded_ip(dst_ip):
+                dst_ip = packet.ip.dst
+                if is_excluded_ip(dst_ip):
                     continue
 
-                src_info = get_whois_info(src_ip)
                 dst_info = get_whois_info(dst_ip)
-                if hasattr(packet, 'stun'):
-                    xor_mapped_address = packet.stun.get_field_value('stun.att.ipv4')
-                    print(f"[+] Found STUN packet: {src_ip} -> {dst_ip}. XOR Mapped Address: {xor_mapped_address}")
-                    display_whois_info(src_info)
-                    display_whois_info(dst_info)
+
+                if dst_info:  # Check if WHOIS data was successfully retrieved for destination IP
+                    if hasattr(packet, 'stun'):
+                        xor_mapped_address = packet.stun.get_field_value('stun.att.ipv4')
+                        print(f"[+] Found STUN packet: Destination IP -> {dst_ip}. XOR Mapped Address: {xor_mapped_address}")
+                        display_whois_info(dst_info)
+                        break  # Stop processing after successful WHOIS data retrieval for destination IP
 
     except Exception as e:
         print(f"Error processing packets: {e}")
