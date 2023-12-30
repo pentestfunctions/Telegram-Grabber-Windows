@@ -73,15 +73,18 @@ def process_stun_packets(interface):
     print(f"This could take up to 30 seconds while calling")
     print(f"Call your target now:")
 
+    checked_ips = set()  # Set to keep track of IPs that have been checked
+
     try:
         cap = pyshark.LiveCapture(interface=interface, display_filter="stun")
         for packet in cap.sniff_continuously(packet_count=999999):  # Adjust packet count as needed
             if hasattr(packet, 'ip'):
                 dst_ip = packet.ip.dst
-                if is_excluded_ip(dst_ip):
+                if dst_ip in checked_ips or is_excluded_ip(dst_ip):
                     continue
 
                 dst_info = get_whois_info(dst_ip)
+                checked_ips.add(dst_ip)  # Add the IP to the set of checked IPs
 
                 if dst_info:  # Check if WHOIS data was successfully retrieved for destination IP
                     if hasattr(packet, 'stun'):
