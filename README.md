@@ -13,11 +13,18 @@
 
 ## Prerequisites
 
+<p align="center">
+  <img src="./images/Installwireshark.gif">
+</p>
+
 - Wireshark must be installed on your system, specifically `tshark`, which is used for packet capturing. During the installation of Wireshark, ensure it is installed in the default location and that `tshark` is enabled.
 - Python 3.x should be installed if you are running the script directly.
 - Internet connection for fetching WHOIS data.
 
 ## Usage
+<p align="center">
+  <img src="./images/CallYourTarget.gif">
+</p>
 
 ### Using the Executable
 
