@@ -30,8 +30,18 @@ def select_interface(interfaces):
     for idx, interface in enumerate(interfaces, start=1):
         print(f"{idx}. {interface}")
 
-    choice = int(input("Select an interface to use (number): "))
-    return interfaces[choice - 1].split('.')[0]
+    while True:
+        choice = input("Select an interface to use (number): ")
+        try:
+            choice = int(choice)
+            if 1 <= choice <= len(interfaces):
+                return interfaces[choice - 1].split('.')[0]
+            else:
+                print("Invalid choice. Please enter a valid number.")
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+    return None  # In case of an error, you can return None or handle it as needed
 
 def get_whois_info(ip):
     try:
@@ -90,6 +100,7 @@ def main():
         if not check_tshark():
             print("tshark is not available. Please ensure Wireshark is installed.")
             print(f"During the installation process, ensure it goes to the default location and enable tshark.")
+            print(f"https://www.wireshark.org/download.html")
             return
 
         interfaces = list_interfaces()
